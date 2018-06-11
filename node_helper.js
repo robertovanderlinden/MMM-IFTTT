@@ -42,6 +42,9 @@ module.exports = NodeHelper.create({
                 type:      'string',
                 minLength: 1,
                 maxLength: 255
+            },
+            imagePath: {
+                type:      'string'
             }
         }
     },
