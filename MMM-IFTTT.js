@@ -52,7 +52,7 @@ Module.register('MMM-IFTTT',{
      */
     getDom: function() {
         let message = '';
-        let image = null;
+        let imgWrapper = null;
 
         if (this.currentNotification !== null) {
             message = this.currentNotification.message;
@@ -83,21 +83,26 @@ Module.register('MMM-IFTTT',{
 
             // image
             if (typeof this.currentNotification.imagePath !== 'undefined') {
-                image = document.createElement("img");
-                var getTimeStamp = new Date();
+                imgWrapper = document.createElement('div');
+
+                let image = document.createElement("img");
+                let getTimeStamp = new Date();
                 image.src = this.currentNotification.imagePath + "?seed=" + getTimeStamp;
                 image.className = "photo";
                 image.style.maxWidth = "100%";
+                imgWrapper.appendChild(image)
             }
 
             this.currentNotification = null;
         }
 
         let wrapper = document.createElement('div');
-        wrapper.className = 'thin bright ' + this.config.size;
-        wrapper.appendChild(document.createTextNode(message));
-        if (image !== null) {
-            wrapper.appendChild(image);
+        let textWrapper = document.createElement('div');
+        textWrapper.className = 'thin bright ' + this.config.size;
+        textWrapper.appendChild(document.createTextNode(message));
+        wrapper.appendChild(textWrapper);
+        if (imgWrapper !== null) {
+            wrapper.appendChild(imgWrapper);
         }
 
         return wrapper;
