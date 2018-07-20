@@ -37,7 +37,9 @@ Module.register('MMM-IFTTT',{
      */
     socketNotificationReceived: function(notification, payload) {
         if (notification === 'IFTTT_NOTIFICATION') {
-            this.sendNotification("MODULE_TOGGLE", {hide: [], show: [], toggle: this.config.modules});
+            if (payload.moduleDisplayStatus === 'hide') {
+                this.sendNotification("MODULE_TOGGLE", {hide: this.config.modules, show: [], toggle: []});
+            }
 
             let fadeSpeed = this.config.fadeSpeed;
             if (this.currentNotification && typeof this.currentNotification.fadeSpeed !== 'undefined') {
@@ -48,11 +50,12 @@ Module.register('MMM-IFTTT',{
             this.updateDom(fadeSpeed);
             this.sendNotification('SCREEN_WAKEUP', true);
 
-            setTimeout(() => {
-                    this.sendNotification("MODULE_TOGGLE", {hide: [], show: [], toggle: this.config.modules});
+            if (payload.moduleDisplayStatus === 'show') {
+                setTimeout(() => {
+                    this.sendNotification("MODULE_TOGGLE", {hide: [], show: this.config.modules, toggle: []});
                 }, payload.displaySeconds * 1000
-            );
-
+                );
+            }
         }
     },
 

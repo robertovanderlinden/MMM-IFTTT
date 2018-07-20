@@ -45,6 +45,9 @@ module.exports = NodeHelper.create({
             },
             imagePath: {
                 type:      'string'
+            },
+            moduleDisplayStatus: {
+                type:      'string'
             }
         }
     },
