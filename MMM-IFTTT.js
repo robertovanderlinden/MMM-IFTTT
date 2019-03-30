@@ -57,6 +57,19 @@ Module.register('MMM-IFTTT',{
                 );
             }
         }
+
+        if (notification === 'FUN_FACE') {
+            if (payload.moduleDisplayStatus === 'show') {
+                setTimeout(() => {
+                    this.sendNotification("MODULE_TOGGLE", {hide: this.config.modules, show: ['MMM-SmartWebDisplay'], toggle: []});
+                }, payload.displaySeconds * 1000
+                );
+            }
+
+            if (payload.moduleDisplayStatus === 'hide') {
+                this.sendNotification("MODULE_TOGGLE", {hide: ['MMM-SmartWebDisplay'], show: this.config.modules, toggle: []});
+            }
+        }
     },
 
     /**

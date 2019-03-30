@@ -48,6 +48,9 @@ module.exports = NodeHelper.create({
             },
             moduleDisplayStatus: {
                 type:      'string'
+            },
+            type: {
+                type:      'string'
             }
         }
     },
@@ -66,7 +69,12 @@ module.exports = NodeHelper.create({
 
             this.validateNotification(req.body)
                 .then((data) => {
-                    this.sendSocketNotification('IFTTT_NOTIFICATION', data);
+                    if (data.type !== undefined && data.type === 'face') {
+                        this.sendSocketNotification('FUN_FACE', data);
+                    } else {
+                        console.log('Sending IFTTT_NOTIFICATION!');
+                        this.sendSocketNotification('IFTTT_NOTIFICATION', data);
+                    }
 
                     res.status(200)
                         .send({
